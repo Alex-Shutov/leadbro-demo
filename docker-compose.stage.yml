@@ -1,0 +1,17 @@
+version: '3.8'
+
+# Legacy alias — prefer `docker compose up --build -d`
+services:
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+      args:
+        REACT_APP_API_URL: ${REACT_APP_API_URL:-}
+        REACT_APP_USE_MOCKS: ${REACT_APP_USE_MOCKS:-true}
+        REACT_APP_SENTRY_DSN: ${REACT_APP_SENTRY_DSN:-}
+    image: ${COMPOSE_PREFIX:-workspace}-frontend:latest
+    container_name: ${COMPOSE_PREFIX:-workspace}_frontend
+    ports:
+      - '${EXTERNAL_PORT:-8080}:80'
+    restart: unless-stopped

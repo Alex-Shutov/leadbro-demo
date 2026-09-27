@@ -1,0 +1,53 @@
+@import ../../../../../../styles/helpers
+
+.task_container
+  width: 100%
+  min-width: 0
+
+.taskDatesAndStatus
+  display: flex
+  align-items: center
+  gap: 12px
+  flex-wrap: wrap
+  min-width: 0
+
+.taskName
+  display: flex
+  gap: 12px
+  align-items: center
+  flex-wrap: wrap
+  +base2
+  color: $n7
+  &_secondary
+    font-weight: 500
+  &_primary
+    display: inline
+    a
+      color: $p3
+    &:hover
+      a
+        color: darken($p3, 10)
+
+.compactList
+  display: flex
+  flex-direction: column
+  gap: 12px
+
+.compactItem
+  display: flex
+  flex-direction: column
+  gap: 6px
+
+.compactLabel
+  +caption1
+  color: $n4
+
+.dateDeadline
+  display: flex
+  flex-direction: row
+  gap: 8px
+
+.button
+  svg
+    top: 1.5px
+    left: 5.8px !important

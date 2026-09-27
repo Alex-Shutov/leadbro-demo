@@ -1,0 +1,55 @@
+@import ../../styles/helpers
+
+.page
+    overflow-x: hidden
+    min-height: 100vh
+    padding: 104px 0 0 0
+    background:"radial-gradient(1200px 480px at 12% -10%, rgba(42, 133, 255, 0.14), transparent 55%), radial-gradient(900px 420px at 88% 0%, rgba(120, 170, 220, 0.18), transparent 50%), linear-gradient(180deg, #E4EDF6 0%, #EEF3F8 42%, #F3F6FA 100%)"
+    +x
+        padding: 88px 0 0 0
+    +d
+        padding-left: 12px
+    +t
+        overflow: hidden
+    +m
+        padding: 76px 0 0 0
+        padding-left: 8px
+    +s
+        padding-left: 8px
+
+.sidebar
+    +r(100)
+        transform: translateX(-100%)
+        transition: transform .3s
+        &.visible
+            transform: translateX(0)
+
+.inner
+    display: flex
+    flex-direction: column
+    min-height: calc(100vh - 104px)
+    padding: 28px 40px 40px
+    +x
+        padding: 24px 24px 32px
+    +m
+        padding: 20px 12px 24px
+
+.container
+    display: flex
+    flex-direction: column
+    flex-grow: 1
+    width: 100%
+    margin: 0 auto
+    &.wide
+        max-width: 100%
+
+.title
+    display: flex
+    justify-content: space-between
+    margin-bottom: 24px
+    letter-spacing: -0.03em
+    +m
+        margin-bottom: 16px
+
+.disabled
+    transform: translateX(-200%)

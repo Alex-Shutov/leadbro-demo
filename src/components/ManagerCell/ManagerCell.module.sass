@@ -1,0 +1,24 @@
+@import ../../styles/helpers
+.container
+  &:hover
+    .fioContainer
+      &>div:first-of-type
+          +link
+  //width: 9rem
+  align-self: center
+  +inter
+  display: flex
+  flex-direction: row
+  gap: 12px
+  height: 48px
+
+  .fioContainer
+    flex-grow: 3
+    font-size: 14px
+    align-content: center
+    line-height: 18px
+    >:first-of-type
+      margin-bottom: 4px
+    >:last-child
+      +caption2-m
+      color: $shades2

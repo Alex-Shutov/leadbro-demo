@@ -1,0 +1,12 @@
+**/node_modules
+**/npm-debug.log*
+**/.git
+**/.idea
+**/.vscode
+**/build
+**/coverage
+**/.env
+**/.env.local
+**/.env.*.local
+**/*.md
+**/.cursor

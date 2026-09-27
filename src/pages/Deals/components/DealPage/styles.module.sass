@@ -1,0 +1,50 @@
+@import 'src/styles/helpers'
+
+.row
+  display: grid
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr)
+  column-gap: 8px
+  align-items: start
+  +t
+    grid-template-columns: minmax(0, 1fr)
+
+.col
+  min-width: 0
+  width: auto
+  &:first-child
+    +t
+      display: grid
+      order: 2
+      width: 100%
+      margin-bottom: 8px
+
+  &:nth-child(2)
+    +t
+      display: grid
+      order: 1
+      width: 100%
+
+  >:not(:last-child)
+    margin-bottom: 8px
+
+.card
+  font-size: 18px
+  &_status
+    display: flex
+    flex-direction: row
+
+.dropdown
+  display: none
+  +t
+    border-radius: 4px
+    align-items: center
+    display: block
+    background: $n1
+    margin-bottom: 0.5rem
+    path
+      transform: scale(1.5)
+    &_inner
+      padding: 16px
+      align-items: center
+      justify-content: space-between !important
+      margin-top: 24px

@@ -1,0 +1,215 @@
+import React, { useState } from 'react';
+import { useParams } from 'react-router';
+import { observer } from 'mobx-react';
+import styles from './Client.module.sass';
+import Title from '../../../../shared/Title';
+import ClientStatus from './Status';
+import cn from 'classnames';
+import ClientService from './Services';
+import ClientDeals from './Deals';
+import ClientActivities from './Activities';
+import ClientDescription from './Description';
+import useClientsApi from '../../clients.api';
+import ClientPersons from './Persons';
+import ClientsContacts from './Contacts';
+import ClientPasswords from './Passwords';
+import CardDropdown from '../../../../shared/Dropdown/Card';
+import { AnimatePresence } from 'framer-motion';
+import {
+  opacityTransition,
+  TranslateYTransition,
+} from '../../../../utils/motion.variants';
+import { motion } from 'framer-motion';
+import useClients from '../../hooks/useClients';
+import CreatePassModal from './Passwords/Modals/CreateModal';
+import { LoadingProvider } from '../../../../providers/LoadingProvider';
+import { handleSubmit as handleSubmitSnackbar } from '../../../../utils/snackbar';
+import CreateClientsModal from './Persons/Modals/CreateClientsModal';
+import Comments from '../../../../components/Comments';
+
+const ClientPage = observer(() => {
+  let { id } = useParams();
+  const { store: clients, isLoading } = useClients(+id);
+  const api = useClientsApi();
+  const [dropDownClicked, setDropDownCLicked] = useState(true);
+  const [passModalOpen, setPassModalOpen] = useState(false);
+  const [personModalValue, setPersonModalValue] = useState(null);
+  const client = clients.getById(id);
+
+  const handleChange = (name, payload, withId = true) => {
+    clients.changeById(client?.id ?? +id, name, payload, withId);
+  };
+  const handleReset = (path) => {
+    clients.resetDraft(client.id, path);
+  };
+
+  const handleRemove = (path) => {
+    clients.removeById(client.id, path);
+  };
+  const handleRemovePass = (path, passId) => {
+    api.deletePassword(client.id, passId);
+
+    handleRemove(path);
+  };
+  const handleSubmit = async (path, submitText) => {
+    try {
+      await api.updateCompany(Number(id), {}, submitText);
+      clients.submitDraft();
+    } catch (error) {
+      console.error('Ошибка при сохранении:', error);
+      clients.resetDraft(Number(id), path);
+    }
+  };
+
+  const handleSubmitPersons = async (clientId, submitText, path) => {
+    try {
+      await api.updateClient(clients, Number(id), clientId, submitText);
+      clients.submitDraft();
+    } catch (error) {
+      console.error('Ошибка при сохранении:', error);
+      clients.resetDraft(Number(id), path);
+    }
+  };
+
+  const handleSubmitPasswords = (path, passId, submitText) => {
+    try {
+      setPassModalOpen(false);
+      api
+        .updatePasswords(Number(id), passId)
+        .then(() => handleSubmitSnackbar(submitText));
+      clients.submitDraft();
+    } catch (error) {
+      console.error('Ошибка при сохранении:', error);
+      clients.resetDraft(Number(id), path);
+    }
+  };
+
+  const handleChangeStatus = (name, value) => {
+    handleChange(name, value);
+    handleSubmit(name, 'Статус успешно изменен!');
+  };
+
+  return (
+    <motion.div
+      initial={'hidden'}
+      animate={'show'}
+      variants={opacityTransition}
+    >
+      <LoadingProvider isLoading={isLoading || api.isLoading}>
+        <Title title={client?.title} />
+        <div className={styles.dropdown}>
+          <CardDropdown
+            onClick={() => setDropDownCLicked(!dropDownClicked)}
+            size={16}
+            className={styles.dropdown_inner}
+            text={<b>Информация о компании</b>}
+          />
+        </div>
+        <div className={styles.row}>
+          <div className={styles.col}>
+            <ClientStatus
+              className={cn(styles.card, styles.card_status)}
+              client={client}
+              handleChange={handleChangeStatus}
+            />
+            <ClientService
+              currentClient={client}
+              className={cn(styles.card, styles.card_status)}
+              services={
+                client?.services && !client?.services?.total
+                  ? client?.services
+                  : null
+              }
+            />
+            <ClientDeals
+              currentClient={client}
+              className={cn(styles.card, styles.card_status)}
+              deals={client?.deals}
+            />
+            <ClientActivities
+              client={client}
+              clientApi={api}
+              clientStore={clients}
+              activities={client?.businesses}
+            />
+            <Comments
+              onDelete={() =>
+                api
+                  .getClientById(client.id, false)
+                  .then(() => clients?.resetDraft(client?.id, 'comments'))
+              }
+              onChange={handleChange}
+              comments={client?.comments}
+            />
+          </div>
+          <AnimatePresence>
+            {dropDownClicked && (
+              <motion.div
+                animate={'show'}
+                initial={'hidden'}
+                exit={'hidden'}
+                variants={TranslateYTransition}
+                className={cn(styles.col, {
+                  [styles.col_dropdowned]: dropDownClicked,
+                })}
+              >
+                <ClientDescription
+                  clientId={client?.id}
+                  onChange={handleChange}
+                  onReset={handleReset}
+                  onSubmit={handleSubmit}
+                  description={client?.description}
+                />
+                <ClientPersons
+                  setClientModalData={(val) => setPersonModalValue(val)}
+                  companyId={client?.id}
+                  onAdd={() => setPersonModalValue(true)}
+                  onChange={handleChange}
+                  onReset={handleReset}
+                  onSubmit={handleSubmitPersons}
+                  persons={client?.contactPersons}
+                />
+                {client?.contactData && (
+                  <ClientsContacts
+                    onAdd={(name, payload) => handleChange(name, payload ?? '')}
+                    onRemove={handleRemove}
+                    onChange={handleChange}
+                    onReset={handleReset}
+                    onSubmit={handleSubmit}
+                    contactData={client?.contactData}
+                  />
+                )}
+                <ClientPasswords
+                  onAdd={() => setPassModalOpen(true)}
+                  onRemove={handleRemovePass}
+                  onChange={handleChange}
+                  onReset={handleReset}
+                  onSubmit={handleSubmitPasswords}
+                  passwordsData={client?.passwords}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+        {passModalOpen && client && (
+          <CreatePassModal
+            onClose={() => setPassModalOpen(false)}
+            companyId={client?.id}
+          />
+        )}
+      </LoadingProvider>
+      {personModalValue !== null && client && (
+        <CreateClientsModal
+          store={clients}
+          api={api}
+          entityId={client?.id}
+          clientId={personModalValue ?? null}
+          onClose={() => setPersonModalValue(null)}
+          companyId={client?.id}
+        />
+      )}
+    </motion.div>
+  );
+});
+
+export default ClientPage;

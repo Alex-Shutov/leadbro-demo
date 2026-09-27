@@ -1,0 +1,113 @@
+@import ../../../../styles/helpers
+
+.card_title
+  +title1-s
+  word-break: break-word
+
+.head
+  display: flex
+  flex-wrap: wrap
+  gap: 8px
+  margin-bottom: 16px !important
+  min-height: auto !important
+
+.etap
+  +body2-s
+  &:hover
+    +link
+
+.card
+  flex-shrink: 1
+  flex-basis: 100%
+  min-width: 0
+  width: 100%
+  height: auto
+
+.cards
+  margin-bottom: 16px
+  display: flex
+  flex-direction: column
+  gap: 12px
+  width: 100%
+
+.mobileCards
+  display: flex
+  flex-direction: column
+  gap: 12px
+  width: 100%
+
+.desktopOnly
+  display: block
+  +m
+    display: none
+
+.mobileOnly
+  display: none
+  +m
+    display: block
+
+.stagesColumn
+  min-width: 0
+  width: 100%
+
+.secondCard
+  flex-shrink: 1.5
+  max-height: 280px
+  flex-basis: 460px
+  +t
+    max-height: none
+    flex-basis: auto
+
+.header
+  >div
+    .edit
+      margin-left: 16px
+      cursor: pointer
+    +title1-s
+    font-size: 24px
+    word-break: break-word
+  margin-bottom: 16px
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  align-items: flex-start
+  gap: 12px
+  +m
+    flex-direction: column
+    align-items: stretch
+    >div
+      font-size: 20px
+
+.gridContainer
+  display: grid
+  grid-template-columns: 5fr 2fr
+  gap: 16px
+  align-items: start
+  +t
+    grid-template-columns: 1fr
+  .infoCards
+    min-width: 0
+    .infoCard
+      max-height: fit-content
+      margin-bottom: 16px
+  .inProgress
+    color: $p2
+  .closed
+    color: $p3
+
+.infoCards
+  min-width: 0
+  width: 100%
+
+.passwordContainer
+  display: flex
+  align-items: center
+  gap: 8px
+  flex-wrap: wrap
+
+.loginInfo,
+.passwordInfo
+  word-break: break-all
+
+.separator
+  color: $n4

@@ -1,0 +1,30 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Анна",
+      "middle_name": "Сергеевна",
+      "last_name": "Вознесенская",
+      "avatar": "avatars/anna.jpg",
+      "position": {
+        "name": "Art Director"
+      },
+      "email": "anna@example.com",
+      "phone": "+7 (999) 123-45-67"
+    },
+    {
+      "id": 2,
+      "name": "Михаил",
+      "middle_name": "Александрович",
+      "last_name": "Белов",
+      "avatar": null,
+      "position": {
+        "name": "Senior UI/UX Designer"
+      },
+      "email": "mikhail@example.com",
+      "phone": null
+    }
+  ],
+  "projects": [...],
+  "tasks": [...]
+}

@@ -1,0 +1,16 @@
+stages:
+  - deploy
+
+# Generic VPS deploy. Adjust `tags`, path and branch to your runner.
+deploy_vps:
+  stage: deploy
+  tags:
+    - vps
+  only:
+    - main
+  script:
+    - cd "${DEPLOY_PATH:-/opt/workspace-frontend}"
+    - git pull
+    - docker compose --env-file .env up --build -d
+  environment:
+    name: production

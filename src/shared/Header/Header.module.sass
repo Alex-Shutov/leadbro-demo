@@ -1,0 +1,190 @@
+@import ../../styles/helpers
+
+.header
+    position: fixed
+    top: 16px
+    left: 16px
+    right: 16px
+    z-index: 20
+    display: flex
+    align-items: center
+    gap: 20px
+    height: 64px
+    padding: 0 20px 0 24px
+    background: $bg-header
+    backdrop-filter: blur(16px)
+    -webkit-backdrop-filter: blur(16px)
+    border: 1px solid rgba(255, 255, 255, 0.65)
+    border-radius: 16px
+    box-shadow: 0 8px 28px rgba(20, 40, 70, 0.08)
+    +x
+        top: 12px
+        left: 12px
+        right: 12px
+        height: 56px
+        padding: 0 12px 0 16px
+        gap: 12px
+    +m
+        top: 8px
+        left: 8px
+        right: 8px
+        height: 52px
+        padding: 0 8px 0 12px
+        border-radius: 14px
+    +dark
+        background: rgba(26, 29, 31, 0.88)
+        border-color: rgba(255, 255, 255, 0.06)
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35)
+
+    .logo
+        flex-shrink: 0
+        +m
+            margin: 0
+
+    button
+        border: none
+        background: none
+
+    p
+        margin: 0
+        padding: 0.4rem 0.75rem
+        border-radius: 8px
+        cursor: pointer
+
+.burger
+    display: none
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    width: 40px
+    height: 40px
+    flex-shrink: 0
+    +x
+        display: flex
+
+    .bar
+        width: 16px
+        height: 2px
+        border-radius: 2px
+        background: $n4
+        margin: 2px 0
+        &:hover
+            background: $n5
+
+.burger:hover .bar
+    background: $n5
+
+.links
+    +base1-s
+    color: $shades2
+    display: flex
+    align-items: center
+    justify-content: flex-start
+    flex: 1
+    gap: 4px
+    min-width: 0
+    margin: 0
+    overflow-x: auto
+    scrollbar-width: none
+    &::-webkit-scrollbar
+        display: none
+    +x
+        display: none
+
+.control
+    display: flex
+    align-items: center
+    margin-left: auto
+    flex-shrink: 0
+    +m
+        margin-left: 0
+
+.control .button,
+.control > div,
+.buttonSearch
+    background: none
+    border: none
+    &:not(:last-child)
+        margin-right: 16px
+
+.button
+    white-space: nowrap
+    letter-spacing: 0.04em
+    font-weight: 600
+    font-size: 13px
+    color: $n4
+    transition: color .2s, background .2s
+    &:hover
+        color: $n7
+        background: rgba(42, 133, 255, 0.08)
+    &.active
+        background: rgba(42, 133, 255, 0.12)
+        color: $p3
+
+.buttonSearch
+    display: none
+    width: 40px
+    height: 40px
+    +m
+        display: inline-flex
+        align-items: center
+        justify-content: center
+    svg
+        fill: $n4
+        transition: fill .2s
+    &.active
+        svg
+            fill: $n7
+            +dark
+                fill: $n1
+
+.control .button
+    +x
+        display: none
+
+.visible
+
+.search
+    margin-left: auto
+    +m
+        visibility: hidden
+        opacity: 0
+        transition: all .2s
+        position: absolute
+        left: 12px
+        right: 12px
+        top: 100%
+        margin-top: 8px
+        &.visible
+            visibility: visible
+            opacity: 1
+
+.btns
+    display: flex
+    align-items: center
+    margin-left: auto
+    +m
+        margin-left: 0
+
+.none
+    display: none
+
+.icon
+    display: block
+
+.buttonWithIcon
+    display: none
+    +m
+        display: inline-block
+
+.link
+    margin-right: 32px
+    +button1
+    color: $n7
+    transition: color .2s
+    +m
+        margin-right: 24px
+    +dark
+        color: $n1
+    &:hover
+        color: $p1
